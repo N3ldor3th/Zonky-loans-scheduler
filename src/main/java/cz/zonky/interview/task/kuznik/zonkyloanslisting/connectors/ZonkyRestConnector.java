@@ -4,9 +4,7 @@ import cz.zonky.interview.task.kuznik.zonkyloanslisting.domain.Loan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,10 +22,14 @@ public class ZonkyRestConnector {
     public List<Loan> getAllLoans() {
         ResponseEntity<List<Loan>> response;
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<>("body", headers);
+
         response = restTemplate.exchange(
                 marketPlaceUrl,
                 HttpMethod.GET,
-                null,
+                entity,
                 new ParameterizedTypeReference<List<Loan>>(){});
 
         return response.getStatusCode() == HttpStatus.OK ? response.getBody() : null;
