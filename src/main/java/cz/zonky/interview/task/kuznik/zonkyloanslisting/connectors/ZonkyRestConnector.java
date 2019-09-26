@@ -26,11 +26,7 @@ public class ZonkyRestConnector {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
-        response = restTemplate.exchange(
-                marketPlaceUrl,
-                HttpMethod.GET,
-                entity,
-                new ParameterizedTypeReference<List<Loan>>(){});
+        response = restTemplate.exchange(marketPlaceUrl, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Loan>>(){});
 
         return response.getStatusCode() == HttpStatus.OK ? response.getBody() : null;
     }
