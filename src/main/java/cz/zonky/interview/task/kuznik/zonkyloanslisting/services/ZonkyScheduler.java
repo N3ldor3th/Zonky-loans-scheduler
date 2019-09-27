@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 @Service
-public class ZonkyCustomScheduler {
+public class ZonkyScheduler {
 
     @Autowired
     private ZonkyRestConnector connector;
@@ -20,12 +20,7 @@ public class ZonkyCustomScheduler {
     public void fetchAllLoans() {
         List<Loan> loans = connector.getAllLoans();
         if (!CollectionUtils.isEmpty(loans)) {
-            printAllLoans(loans);
+            ZonkyPrinter.printAllLoans(loans);
         }
     }
-
-    private void printAllLoans(List<Loan> loans) {
-        loans.forEach(System.out::println);
-    }
-
 }
