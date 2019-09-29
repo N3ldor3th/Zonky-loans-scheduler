@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Component
-public class ZonkyRestConnector {
+public class ZonkyRestConnector implements LoansConnector {
 
     @Autowired
     private RestTemplate restTemplate;

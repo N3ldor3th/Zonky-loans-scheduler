@@ -12,7 +12,7 @@ public class ZonkyPrinter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ZonkyPrinter.class);
 
-    static void printAllLoans(List<Loan> loans) {
+    void printAllLoans(List<Loan> loans) {
         loans.forEach(loan -> LOGGER.info(loan.toString()));
     }
 
