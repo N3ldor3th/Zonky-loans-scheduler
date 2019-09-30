@@ -1,5 +1,7 @@
 package cz.zonky.interview.task.kuznik.zonkyloanslisting.connectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -18,14 +20,20 @@ public class ZonkyRestConnector implements LoansConnector {
     @Autowired
     private HttpEntity<String> httpEntity;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZonkyRestConnector.class);
+
     @Value("${zonky.api.marketplace.url}")
     private String marketPlaceUrl;
 
     public String getAllLoans() {
-        ResponseEntity<String> response;
+        ResponseEntity<String> response = null;
 
-        response = restTemplate.exchange(marketPlaceUrl, HttpMethod.GET, httpEntity, String.class);
+        try {
+            response = restTemplate.exchange(marketPlaceUrl, HttpMethod.GET, httpEntity, String.class);
+        } catch (RuntimeException runtimeException) {
+            LOGGER.error(runtimeException.getLocalizedMessage());
+        }
 
-        return response.getStatusCode() == HttpStatus.OK ? response.getBody() : null;
+        return response != null && response.getStatusCode() == HttpStatus.OK ? response.getBody() : null;
     }
 }
